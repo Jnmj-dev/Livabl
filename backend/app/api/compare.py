@@ -3,11 +3,11 @@ from app.data.wards import get_ward_by_id
 from app.scoring.score import calculate_score
 from app.schemas.ward import CompareResponse
 
-router = APIRouter()
+router = APIRouter(tags=["Compare"])
 
 
-@router.get("/compare", response_model=CompareResponse, summary="Compare two wards")
-def compare(ward1: int, ward2: int):
+@router.get("/compare", response_model=CompareResponse)
+def compare_route(ward1: int, ward2: int):
     w1 = get_ward_by_id(ward1)
     w2 = get_ward_by_id(ward2)
 
