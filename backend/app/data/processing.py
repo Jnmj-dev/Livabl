@@ -11,19 +11,15 @@ def parse_features(geojson_data: Dict[str, Any]) -> List[Dict[str, Any]]:
         logger.info("Parsing features from GeoJSON...")
         if not isinstance(geojson_data, dict):
             raise ProcessingError("Input must be a dictionary")
-        
         if "features" not in geojson_data:
             raise ProcessingError("GeoJSON does not contain features array")
         features = geojson_data["features"]
-        
         if not isinstance(features, list):
             raise ProcessingError(f"'features' must be an array, got {type(features)}")
-        
         if len(features) == 0:
             logger.warning("GeoJSON has empty features array")
         logger.info(f"Parsed {len(features)} features from GeoJSON")
         return features
-        
     except ProcessingError:
         raise
     except Exception as e:
@@ -36,33 +32,29 @@ def validate_features(features: List[Dict[str, Any]]) -> Dict[str, Any]:
     invalid_count = 0
     errors = []
     logger.info(f"Validating {len(features)} features...")
-    for i, feature in enumerate(features):              
+    for i, feature in enumerate(features):
         try:
             if not isinstance(feature, dict):
                 errors.append(f"Feature {i}: Not a dictionary")
                 invalid_count += 1
                 continue
-            
             if feature.get("type") != "Feature":
                 errors.append(f"Feature {i}: Invalid type '{feature.get('type')}'")
                 invalid_count += 1
                 continue
-            
             if "properties" not in feature:
                 errors.append(f"Feature {i}: Missing 'properties'")
                 invalid_count += 1
                 continue
-            
             if "geometry" not in feature:
                 errors.append(f"Feature {i}: Missing 'geometry'")
                 invalid_count += 1
                 continue
             valid_count += 1
-            
+        
         except Exception as e:
             errors.append(f"Feature {i}: {str(e)}")
             invalid_count += 1
-    
     result ={
         "total_count": len(features),
         "valid_count": valid_count,
@@ -103,7 +95,6 @@ def get_feature_stats(features: List[Dict[str, Any]]) -> Dict[str, Any]:
         geometry = feature.get("geometry", {})
         geom_type = geometry.get("type", "unknown")
         geometry_types[geom_type] = geometry_types.get(geom_type, 0) + 1
-    
     return {
         "count": len(features),
         "avg_properties": round(total_properties / len(features), 2),
@@ -112,7 +103,7 @@ def get_feature_stats(features: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)    
+    logging.basicConfig(level=logging.INFO)
     try:
         from ingestion import load_geojson
         data = load_geojson("wards_score.geojson")
