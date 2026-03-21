@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import type { Neighborhood } from '../types';
-import { getScoreColor } from '../utils';
-import { fetchNeighbourhoodBoundaries, type OsmPolygon } from '../api/overpass';
+import { useEffect, useRef, useState } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import type { Neighborhood } from "../types";
+import { getScoreColor } from "../utils";
+import { fetchNeighbourhoodBoundaries, type OsmPolygon } from "../api/overpass";
 
 interface LiveMapProps {
   neighborhoods: Neighborhood[];
@@ -12,12 +12,16 @@ interface LiveMapProps {
 }
 
 function getWardColor(score: number): string {
-  if (score >= 68) return '#16a34a';
-  if (score >= 45) return '#d97706';
-  return '#dc2626';
+  if (score >= 68) return "#16a34a";
+  if (score >= 45) return "#d97706";
+  return "#dc2626";
 }
 
-export default function LiveMap({ neighborhoods, selected, onSelect }: LiveMapProps) {
+export default function LiveMap({
+  neighborhoods,
+  selected,
+  onSelect,
+}: LiveMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Record<string, L.Marker>>({});
   const polygonsRef = useRef<L.Polygon[]>([]);
@@ -28,23 +32,27 @@ export default function LiveMap({ neighborhoods, selected, onSelect }: LiveMapPr
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
     const map = L.map(containerRef.current, {
-      center: [28.6139, 77.2090],
+      center: [28.6139, 77.209],
       zoom: 11,
       zoomControl: false,
     });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map);
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.control.zoom({ position: "bottomright" }).addTo(map);
     mapRef.current = map;
-    return () => { map.remove(); mapRef.current = null; };
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
   }, []);
 
   // Draw real Delhi ward boundaries
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || wardsLoaded || !map.getPane('overlayPane')) return;
+    if (!map || wardsLoaded || !map.getPane("overlayPane")) return;
 
     fetchNeighbourhoodBoundaries().then((wards: OsmPolygon[]) => {
       polygonsRef.current.forEach((p) => p.remove());
@@ -82,7 +90,7 @@ export default function LiveMap({ neighborhoods, selected, onSelect }: LiveMapPr
                 <span style="font-family:'DM Mono',monospace;">${ward.pollution_score}</span>
               </div>
             </div>`,
-            { sticky: true, opacity: 0.97 }
+            { sticky: true, opacity: 0.97 },
           );
 
           polygon.addTo(map);
@@ -107,12 +115,12 @@ export default function LiveMap({ neighborhoods, selected, onSelect }: LiveMapPr
       const isSelected = selected?.id === n.id;
 
       const icon = L.divIcon({
-        className: '',
+        className: "",
         html: `<div style="
           width: ${isSelected ? 40 : 30}px;
           height: ${isSelected ? 40 : 30}px;
           border-radius: 50%;
-          background: ${isSelected ? '#1a1a18' : color};
+          background: ${isSelected ? "#1a1a18" : color};
           border: 2.5px solid white;
           display: flex; align-items: center; justify-content: center;
           font-family: 'DM Mono', monospace;
@@ -126,11 +134,12 @@ export default function LiveMap({ neighborhoods, selected, onSelect }: LiveMapPr
       });
 
       const marker = L.marker([n.coordinates.lat, n.coordinates.lng], {
-        icon, zIndexOffset: 1000,
+        icon,
+        zIndexOffset: 1000,
       });
 
-      marker.bindPopup(L.popup({ closeButton: false, offset: [0, -12] })
-        .setContent(`
+      marker.bindPopup(
+        L.popup({ closeButton: false, offset: [0, -12] }).setContent(`
           <div style="font-family:'DM Sans',sans-serif;padding:4px;min-width:150px;">
             <div style="font-size:13px;font-weight:600;margin-bottom:4px;">${n.name}</div>
             <div style="font-size:11px;color:#6b6b64;margin-bottom:6px;">${n.region}</div>
@@ -147,11 +156,12 @@ export default function LiveMap({ neighborhoods, selected, onSelect }: LiveMapPr
               <span style="font-family:'DM Mono',monospace;">${n.breakdown.transit}</span>
             </div>
           </div>
-        `));
+        `),
+      );
 
-      marker.on('mouseover', () => marker.openPopup());
-      marker.on('mouseout', () => marker.closePopup());
-      marker.on('click', () => onSelect(n));
+      marker.on("mouseover", () => marker.openPopup());
+      marker.on("mouseout", () => marker.closePopup());
+      marker.on("click", () => onSelect(n));
       marker.addTo(map);
       markersRef.current[n.id] = marker;
     });
@@ -162,13 +172,14 @@ export default function LiveMap({ neighborhoods, selected, onSelect }: LiveMapPr
     if (!mapRef.current || !selected) return;
     mapRef.current.flyTo(
       [selected.coordinates.lat, selected.coordinates.lng],
-      13, { duration: 1 }
+      13,
+      { duration: 1 },
     );
   }, [selected]);
 
   return (
     <div className="map-area">
-      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+      <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
     </div>
   );
 }
