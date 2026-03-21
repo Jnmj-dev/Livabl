@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
 from app.data.wards import get_all_wards, get_ward_by_id
-from app.scoring.score import calculate_score
+from app.scoring.engine import compute_score
 from app.schemas.ward import WardResponse, WardDetailResponse
 
 router = APIRouter(tags=["Wards"])
@@ -16,7 +16,7 @@ def list_wards():
             "id": w["id"],
             "name": w["name"],
             "city": w["city"],
-            "score": round(calculate_score(w), 2)
+            "score": round(compute_score(w), 2)
         }
         for w in data
     ]
@@ -35,6 +35,6 @@ def get_ward(ward_id: int):
         "id": w["id"],
         "name": w["name"],
         "city": w["city"],
-        "score": round(calculate_score(w), 2),
+        "score": round(compute_score(w), 2),
         "metrics": metrics
     }

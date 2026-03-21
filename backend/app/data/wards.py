@@ -1,39 +1,32 @@
-wards = [
-    {
-        "id": 1,
-        "name": "South Delhi",
-        "city": "Delhi",
-        "healthcare": 80,
-        "education": 75,
-        "connectivity": 85,
-        "environment": 60,
-        "civic": 65,
-        "sentiment": 70
-    },
-    {
-        "id": 2,
-        "name": "North Delhi",
-        "city": "Delhi",
-        "healthcare": 70,
-        "education": 72,
-        "connectivity": 68,
-        "environment": 65,
-        "civic": 60,
-        "sentiment": 62
-    }
-]
+import json
+from pathlib import Path
 
+DATA_PATH = (Path(__file__).resolve().parent.parent 
+             / "data"  
+             / "processed" 
+             / "wards_with_aqi.geojson"
+)
+
+def load_data():
+    with open(DATA_PATH, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        return data["features"]
 
 def get_all_wards():
-    return wards
-
+    features = load_data()
+    # Assuming 'wards' is a list of ward data; if not, replace with features = load_data() and enumerate(features)
+    return [
+        {
+            "id": i,
+            "name": w["properties"].get("ward_name", f"Ward {i}"),
+            "city": "Delhi",
+            **w["properties"]  # Unpack additional properties
+        }
+        for i, w in enumerate(features)
+    ]
 
 def get_ward_by_id(ward_id: int):
-    for ward in wards:
-        if ward["id"] == ward_id:
-            return ward
-    return None
-def compare_wards(id1: int, id2: int):
-    w1 = get_ward_by_id(id1)
-    w2 = get_ward_by_id(id2)
-    return {"ward 1": w1, "ward 2": w2}
+    wards_list = get_all_wards()
+    if ward_id < 0 or ward_id >= len(wards_list):
+        return None
+    return wards_list[ward_id]
