@@ -8,7 +8,7 @@
 [![Built with OSM](https://img.shields.io/badge/Maps-OpenStreetMap-blue)](https://www.openstreetmap.org)
 [![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61DAFB)](https://react.dev)
 [![Python](https://img.shields.io/badge/Backend-Python%20%2B%20FastAPI-3776AB)](https://fastapi.tiangolo.com)
-[![FossHack 2025](https://img.shields.io/badge/FossHack-2025-orange)](https://fossunited.org)
+[![FossHack 2026](https://img.shields.io/badge/FossHack-2026-orange)](https://fossunited.org)
 
 Livabl is an open-source platform that aggregates public urban datasets to generate a **0–100 Quality of Life score** for every ward in Delhi NCR. It helps renters, homebuyers, researchers, and urban planners make informed decisions through comparable locality insights and an interactive map.
 
@@ -207,7 +207,7 @@ The frontend will automatically switch from local GeoJSON to the live API.
 
 ## Contributing
 
-Contributions are welcome! This project is built for FossHack 2025.
+Contributions are welcome! This project is built for FossHack 2026.
 
 1. Fork the repo
 2. Create a feature branch (`git checkout -b feat/your-feature`)
@@ -228,6 +228,6 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 **Livabl — Turning urban data into clear decisions.**
 
-Built with ❤️ for [FossHack 2025](https://fossunited.org) · Powered by [OpenStreetMap](https://www.openstreetmap.org)
+Built with ❤️ for [FossHack 2026](https://fossunited.org) · Powered by [OpenStreetMap](https://www.openstreetmap.org)
 
 </div>
