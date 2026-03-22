@@ -45,7 +45,7 @@ The platform transforms complex urban data into simple, actionable insights thro
 
 > Dashboard running locally — see Getting Started below.
 
-![Livabl Dashboard](docs/screenshot.png)
+![Livabl Dashboard](docs/screenshot_23march26.jpeg)
 
 ---
 
@@ -132,6 +132,8 @@ Livabl/
 │   │   │   ├── processing.py  # Ward data transformer
 │   │   │   └── schemas.py     # Pydantic data models
 │   │   └── scoring/           # Score computation engine
+|   |       ├── engine.py
+|   |       └── metrics.py      
 │   └── data/
 │       ├── raw/               # Source GeoJSON files
 │       └── processed/         # Scored ward data
@@ -213,23 +215,6 @@ Contributions are welcome! This project is built for FossHack 2025.
 4. Push and open a pull request
 
 Please open an issue before starting work on a large feature so we can coordinate.
-
----
-
-## Roadmap
-
-- [x] Interactive OSM map with Leaflet.js
-- [x] 290 Delhi ward boundaries from OpenStreetMap
-- [x] Real livability scores from backend pipeline
-- [x] Ward search across all 290 wards
-- [ ] Filter map by score category (Healthcare, Education, Environment)
-- [ ] Side-by-side ward comparison view
-- [ ] Connect to live FastAPI backend
-- [ ] Crime and safety indices
-- [ ] Rental price trend overlay
-- [ ] Walkability and green cover metrics
-- [ ] Time-series score evolution
-- [ ] Support for additional Indian cities
 
 ---
 
