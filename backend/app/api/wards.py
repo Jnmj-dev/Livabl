@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
+
 from app.data.wards import get_all_wards, get_ward_by_id
 from app.scoring.engine import compute_score
 from app.schemas.ward import WardResponse, WardDetailResponse
@@ -16,25 +17,26 @@ def list_wards():
             "id": w["id"],
             "name": w["name"],
             "city": w["city"],
-            "score": round(compute_score(w), 2)
+            "score": round(compute_score(w)["score"], 2) # Assuming compute_score returns a dict with 'score' key
         }
         for w in data
     ]
 
 
-@router.get("/wards/{ward_id}", response_model=WardDetailResponse)
+@router.get("/wards/{ward_id}", 
+response_model=WardDetailResponse)
 def get_ward(ward_id: int):
     w = get_ward_by_id(ward_id)
 
     if not w:
         raise HTTPException(status_code=404, detail="Ward not found")
 
-    metrics = {k: v for k, v in w.items() if k not in {"id", "name", "city"}}
+    score_result = compute_score(w)
 
     return {
         "id": w["id"],
         "name": w["name"],
         "city": w["city"],
-        "score": round(compute_score(w), 2),
-        "metrics": metrics
+        "score": round(score_result["score"], 2),  # Assuming compute_score returns a dict with 'score' key
+        "metrics": score_result
     }

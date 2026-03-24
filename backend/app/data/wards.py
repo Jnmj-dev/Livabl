@@ -1,11 +1,11 @@
 import json
 from pathlib import Path
 
-DATA_PATH = (Path(__file__).resolve().parent.parent 
-             / "data"  
-             / "processed" 
-             / "wards_with_aqi.geojson"
-)
+BASE_DIR = Path(__file__).resolve().parent.parents[1] #goes to /backend/app/
+
+ROOT_DIR = BASE_DIR.parent #goes to /backend/ 
+
+DATA_PATH = BASE_DIR / "data" / "processed" / "wards_with_aqi.geojson"
 
 def load_data():
     with open(DATA_PATH, "r", encoding="utf-8") as f:

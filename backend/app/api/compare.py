@@ -14,19 +14,21 @@ def compare_route(ward1: int, ward2: int):
     if not w1 or not w2:
         raise HTTPException(status_code=404, detail="Invalid Ward IDs")
 
+    score1 = compute_score(w1)
+    score2 = compute_score(w2)
     return {
         "ward1": {
             "id": w1["id"],
             "name": w1["name"],
             "city": w1["city"],
-            "score":
-              round(compute_score(w1), 2)
+            "score": round(score1["score"], 2),  # Assuming compute_score returns a dict with 'score' key
+            "metrics": score1
         },
         "ward2": {
             "id": w2["id"],
             "name": w2["name"],
             "city": w2["city"],
-            "score": 
-            round(compute_score(w2), 2)
+            "score": round(score2["score"], 2),  # Assuming compute_score returns a dict with 'score' key
+            "metrics": score2
         }
     }
