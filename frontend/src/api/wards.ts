@@ -38,12 +38,9 @@ async function loadFromGeoJSON(): Promise<Neighborhood[]> {
         area_km2: 0,
         score: overall,
         breakdown: {
-          safety: overall,
-          walkability: n(p.pollution_score),
-          transit: overall,
-          schools: n(p.school_score),
-          greenery: n(p.pollution_score),
-          noise: n(p.pollution_score),
+          hospital_score: n(p.hospital_score),
+          school_score: n(p.school_score),
+          pollution_score: n(p.pollution_score),
         },
         coordinates: { lat, lng },
       } as Neighborhood;
@@ -58,15 +55,13 @@ async function loadFromAPI(): Promise<Neighborhood[]> {
 
   // Get coordinates from GeoJSON since API doesn't return geometry
   const local = await loadFromGeoJSON();
-  const coordMap = new Map(
-    local.map((w) => [w.name.toLowerCase(), w.coordinates]),
+  const localMap = new Map(
+    local.map((w) => [w.name.toLowerCase(), w]),
   );
 
   return data.map((w: any) => {
-    const coords = coordMap.get(w.name?.toLowerCase()) ?? {
-      lat: 28.6139,
-      lng: 77.209,
-    };
+    const localWard = localMap.get(w.name?.toLowerCase());
+    const coords = localWard?.coordinates ?? { lat: 28.6139, lng: 77.209 };
     const score = Math.round(w.score ?? 0);
     return {
       id: String(w.id),
@@ -75,13 +70,10 @@ async function loadFromAPI(): Promise<Neighborhood[]> {
       region: "Delhi NCR",
       area_km2: 0,
       score,
-      breakdown: {
-        safety: score,
-        walkability: score,
-        transit: score,
-        schools: score,
-        greenery: score,
-        noise: score,
+      breakdown: localWard?.breakdown ?? {
+        hospital_score: score,
+        school_score: score,
+        pollution_score: score,
       },
       coordinates: coords,
     } as Neighborhood;

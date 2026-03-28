@@ -188,16 +188,16 @@ export default function LiveMap({ neighborhoods, selected, onSelect, theme }: Li
             <div style="font-size:13px;font-weight:600;margin-bottom:4px;">${n.name}</div>
             <div style="font-size:11px;color:${theme === 'dark' ? '#b5b8b0' : '#6b6b64'};margin-bottom:6px;">${n.region}</div>
             <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px;">
-              <span style="color:${theme === 'dark' ? '#b5b8b0' : '#6b6b64'};">Safety</span>
-              <span style="font-family:'DM Mono',monospace;">${n.breakdown.safety}</span>
+              <span style="color:${theme === 'dark' ? '#b5b8b0' : '#6b6b64'};">Hospital Score</span>
+              <span style="font-family:'DM Mono',monospace;">${n.breakdown.hospital_score}</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px;">
-              <span style="color:${theme === 'dark' ? '#b5b8b0' : '#6b6b64'};">Walkability</span>
-              <span style="font-family:'DM Mono',monospace;">${n.breakdown.walkability}</span>
+              <span style="color:${theme === 'dark' ? '#b5b8b0' : '#6b6b64'};">School Score</span>
+              <span style="font-family:'DM Mono',monospace;">${n.breakdown.school_score}</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11px;">
-              <span style="color:${theme === 'dark' ? '#b5b8b0' : '#6b6b64'};">Transit</span>
-              <span style="font-family:'DM Mono',monospace;">${n.breakdown.transit}</span>
+              <span style="color:${theme === 'dark' ? '#b5b8b0' : '#6b6b64'};">Pollution Score</span>
+              <span style="font-family:'DM Mono',monospace;">${n.breakdown.pollution_score}</span>
             </div>
           </div>
         `));

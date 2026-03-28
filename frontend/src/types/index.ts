@@ -1,10 +1,7 @@
 export interface ScoreBreakdown {
-  safety: number;
-  walkability: number;
-  transit: number;
-  schools: number;
-  greenery: number;
-  noise: number;
+  hospital_score: number;
+  school_score: number;
+  pollution_score: number;
 }
 
 export interface Neighborhood {
@@ -29,8 +26,8 @@ export interface Neighborhood {
   };
 }
 
-export type ScoreCategory = 'all' | 'safety' | 'walkability' | 'transit' | 'schools' | 'greenery' | 'noise';
-export type MapLayer = 'livability' | 'safety' | 'transit';
+export type ScoreCategory = 'all' | 'hospital_score' | 'school_score' | 'pollution_score';
+export type MapLayer = 'livability' | 'hospital_score' | 'school_score' | 'pollution_score';
 export type ScoreGrade = 'excellent' | 'average' | 'poor';
 
 export interface NeighborhoodsResponse {

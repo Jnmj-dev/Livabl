@@ -10,12 +10,9 @@ interface SidebarProps {
 }
 
 const BREAKDOWN_LABELS: { key: keyof Neighborhood['breakdown']; label: string }[] = [
-  { key: 'safety', label: 'Safety' },
-  { key: 'walkability', label: 'Walkability' },
-  { key: 'transit', label: 'Transit' },
-  { key: 'schools', label: 'Schools' },
-  { key: 'greenery', label: 'Greenery' },
-  { key: 'noise', label: 'Noise' },
+  { key: 'hospital_score', label: 'Hospital Score' },
+  { key: 'school_score', label: 'School Score' },
+  { key: 'pollution_score', label: 'Pollution Score' },
 ];
 
 function getDisplayScore(n: Neighborhood, cat: ScoreCategory): number {
