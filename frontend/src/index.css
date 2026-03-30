@@ -582,6 +582,13 @@ body {
   background: var(--surface2);
 }
 
+.map-area .leaflet-interactive:focus,
+.map-area .leaflet-interactive:focus-visible,
+.map-area .leaflet-container a:focus,
+.map-area .leaflet-container a:focus-visible {
+  outline: none;
+}
+
 .map-area .leaflet-popup-content-wrapper,
 .map-area .leaflet-popup-tip,
 .map-area .leaflet-tooltip {

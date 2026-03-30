@@ -132,9 +132,9 @@ export default function MapPanel({ neighborhoods, selected, onSelect, activeCate
                     <div className="zone-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
                         <div className="zt-name">{tooltip.neighborhood.name}</div>
                         <div className="zt-row"><span>Livability</span><span className="zt-val">{tooltip.neighborhood.score}</span></div>
-                        <div className="zt-row"><span>Safety</span><span className="zt-val">{tooltip.neighborhood.breakdown.safety}</span></div>
-                        <div className="zt-row"><span>Walkability</span><span className="zt-val">{tooltip.neighborhood.breakdown.walkability}</span></div>
-                        <div className="zt-row"><span>Transit</span><span className="zt-val">{tooltip.neighborhood.breakdown.transit}</span></div>
+                        <div className="zt-row"><span>Hospital Score</span><span className="zt-val">{tooltip.neighborhood.breakdown.hospital_score}</span></div>
+                        <div className="zt-row"><span>School Score</span><span className="zt-val">{tooltip.neighborhood.breakdown.school_score}</span></div>
+                        <div className="zt-row"><span>Pollution Score</span><span className="zt-val">{tooltip.neighborhood.breakdown.pollution_score}</span></div>
                     </div>
                 )}
 
@@ -153,11 +153,17 @@ export default function MapPanel({ neighborhoods, selected, onSelect, activeCate
                     <div className="map-card">
                         <div className="map-card-title">Map Layer</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                            {(['livability', 'safety', 'transit'] as MapLayer[]).map((l) => (
+                            {(['livability', 'hospital_score', 'school_score', 'pollution_score'] as MapLayer[]).map((l) => (
                                 <label key={l} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11, color: 'var(--text-2)', cursor: 'pointer' }}>
                                     <input type="radio" name="layer" checked={layer === l}
                                         onChange={() => setLayer(l)} style={{ accentColor: '#2563eb' }} />
-                                    {l.charAt(0).toUpperCase() + l.slice(1)}
+                                    {l === 'livability'
+                                        ? 'Livability'
+                                        : l === 'hospital_score'
+                                            ? 'Hospital Score'
+                                            : l === 'school_score'
+                                                ? 'School Score'
+                                                : 'Pollution Score'}
                                 </label>
                             ))}
                         </div>

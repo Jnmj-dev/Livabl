@@ -11,11 +11,9 @@ interface HeaderProps {
 
 const CATEGORIES: { key: ScoreCategory; label: string }[] = [
   { key: 'all', label: 'All' },
-  { key: 'safety', label: 'Safety' },
-  { key: 'walkability', label: 'Walkability' },
-  { key: 'transit', label: 'Transit' },
-  { key: 'schools', label: 'Schools' },
-  { key: 'greenery', label: 'Greenery' },
+  { key: 'hospital_score', label: 'Hospital Score' },
+  { key: 'school_score', label: 'School Score' },
+  { key: 'pollution_score', label: 'Pollution Score' },
 ];
 
 export default function Header({
