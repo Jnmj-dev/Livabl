@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Neighborhood, ScoreCategory } from '../types';
 import { getBadgeStyle } from '../utils';
 import ScoreBar from './ScoreBar';
@@ -18,6 +19,8 @@ const BREAKDOWN_LABELS: { key: keyof Neighborhood['breakdown']; label: string }[
   { key: 'noise', label: 'Noise' },
 ];
 
+type SidebarTab = 'Overview' | 'Compare' | 'Trends' | 'Reports';
+
 function getDisplayScore(n: Neighborhood, cat: ScoreCategory): number {
   if (cat === 'all') return n.score;
   if (cat in n.breakdown) return n.breakdown[cat as keyof Neighborhood['breakdown']];
@@ -25,6 +28,8 @@ function getDisplayScore(n: Neighborhood, cat: ScoreCategory): number {
 }
 
 export default function Sidebar({ neighborhoods, selected, onSelect, activeCategory }: SidebarProps) {
+  const [activeTab, setActiveTab] = useState<SidebarTab>('Overview');
+
   const sorted = [...neighborhoods].sort(
     (a, b) => getDisplayScore(b, activeCategory) - getDisplayScore(a, activeCategory)
   );
@@ -32,13 +37,20 @@ export default function Sidebar({ neighborhoods, selected, onSelect, activeCateg
   return (
     <aside className="sidebar">
       <div className="sidebar-tabs">
-        {['Overview', 'Compare', 'Trends', 'Reports'].map((t) => (
-          <div key={t} className={`tab ${t === 'Overview' ? 'active' : ''}`}>{t}</div>
+        {(['Overview', 'Compare', 'Trends', 'Reports'] as SidebarTab[]).map((t) => (
+          <button
+            key={t}
+            className={`tab ${t === activeTab ? 'active' : ''}`}
+            onClick={() => setActiveTab(t)}
+            type="button"
+          >
+            {t}
+          </button>
         ))}
       </div>
 
       <div className="sidebar-content">
-        {selected && (
+        {selected && activeTab === 'Overview' && (
           <div className="score-hero">
             <div className="score-hero-location">{selected.city}, {selected.region}</div>
             <div className="score-hero-name">{selected.name}</div>
@@ -56,6 +68,13 @@ export default function Sidebar({ neighborhoods, selected, onSelect, activeCateg
                 <ScoreBar key={key} label={label} value={selected.breakdown[key]} delay={i * 60} />
               ))}
             </div>
+          </div>
+        )}
+
+        {(activeTab === 'Trends' || activeTab === 'Reports' || activeTab === 'Compare') && (
+          <div className="score-hero">
+            <div className="score-hero-location">{activeTab}</div>
+            <div className="score-hero-name">Coming soon</div>
           </div>
         )}
 
