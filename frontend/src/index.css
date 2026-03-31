@@ -390,6 +390,8 @@ body {
 }
 
 .tab {
+  border: none;
+  background: transparent;
   padding: 12px 14px 10px;
   font-size: 12px;
   font-weight: 500;
