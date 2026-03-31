@@ -147,7 +147,7 @@ Livabl/
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.14+
 - Node.js 18+
 - npm
 - **uv** (Python package manager)
@@ -169,19 +169,14 @@ cd Livabl
 ```bash
 cd backend
 
-# Create and activate virtual environment
-uv venv
-source .venv/bin/activate   # Linux / macOS
-# .venv\Scripts\activate    # Windows
-
-# Install dependencies
-uv pip install -r requirements.txt
+# Install dependencies from pyproject + lockfile
+uv sync --dev
 
 # Run the API server
-python app.py
+uv run python run.py
 ```
 
-The API will be available at `http://localhost:8000`.
+The API will be available at `http://127.0.0.1:8000`.
 
 #### Frontend
 
@@ -198,10 +193,32 @@ Open `http://localhost:5173` in your browser.
 Create a `.env` file inside the `frontend/` folder:
 
 ```
-VITE_API_URL=http://localhost:8000
+VITE_API_URL=http://127.0.0.1:8000
 ```
 
 The frontend will automatically switch from local GeoJSON to the live API.
+
+### Health Check
+
+```bash
+curl http://127.0.0.1:8000/health
+```
+
+### Hosting (Production)
+
+Recommended split:
+
+- Frontend: Vercel (deploy `frontend/`)
+- Backend: Render or Railway (deploy `backend/` Dockerfile)
+
+Backend production env:
+
+- `CORS_ALLOW_ORIGINS=https://your-frontend-domain.com`
+- Multiple domains can be comma-separated.
+
+Frontend production env:
+
+- `VITE_API_URL=https://your-backend-domain.com`
 
 ---
 
